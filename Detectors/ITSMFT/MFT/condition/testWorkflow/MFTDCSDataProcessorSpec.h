@@ -57,24 +57,24 @@ class MFTDCSDataProcessor : public o2::framework::Task
   //________________________________________________________________
   void init(o2::framework::InitContext& ic) final
   {
-    
+
     //o2::conf::ConfigurableParam::updateFromString(ic.options().get<std::string>("configKeyValues"));
-    
+
     std::vector<DPID> vect;
     mDPsUpdateInterval = ic.options().get<int64_t>("DPs-update-interval");
     if (mDPsUpdateInterval == 0) {
       LOG(error) << "MFT DPs update interval set to zero seconds --> changed to 60";
       mDPsUpdateInterval = 60;
     }
-    
+
     bool useCCDBtoConfigure = ic.options().get<bool>("use-ccdb-to-configure");
-    
+
     mStart = ic.options().get<int64_t>("tstart");
     mEnd = ic.options().get<int64_t>("tend");
 
     if (useCCDBtoConfigure) {
       LOG(info) << "Configuring via CCDB";
-      
+
       auto& mgr = CcdbManager::instance();
       mgr.setURL(o2::base::NameConf::getCCDBServer());
       CcdbApi api;
@@ -227,7 +227,7 @@ DataProcessorSpec getMFTDCSDataProcessorSpec()
       {"tend", VariantType::Int64, -1ll, {"End of validity timestamp"}},
       {"use-ccdb-to-configure", VariantType::Bool, false, {"Use CCDB to configure"}},
       {"use-verbose-mode", VariantType::Bool, false, {"Use verbose mode"}},
-	//{"configKeyValues", VariantType::String, "", {"Semicolon separated key=value strings"}},
+      //{"configKeyValues", VariantType::String, "", {"Semicolon separated key=value strings"}},
       {"DPs-update-interval", VariantType::Int64, 600ll, {"Interval (in s) after which to update the DPs CCDB entry"}}}};
 }
 

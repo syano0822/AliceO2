@@ -23,7 +23,7 @@
 #include <bitset>
 #endif
 
-void readMFTDCSentries(long ts = 9999999999000,std::string ccdb_path = o2::base::NameConf::getCCDBServer())
+void readMFTDCSentries(long ts = 9999999999000, std::string ccdb_path = o2::base::NameConf::getCCDBServer())
 {
 
   o2::mft::DCSNameResolver namer;
