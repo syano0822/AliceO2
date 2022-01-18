@@ -2,7 +2,7 @@
 o2_add_library(
   DCStestWorkflow
   SOURCES src/DCSRandomDataGeneratorSpec.cxx
-  PUBLIC_LINK_LIBRARIES O2::DetectorsDCS O2::Framework)
+  PUBLIC_LINK_LIBRARIES O2::DetectorsDCS O2::Framework O2::MFTCondition)
 
 o2_add_executable(
   proxy
@@ -26,4 +26,7 @@ o2_add_executable(
   config-consumer-test-workflow
   COMPONENT_NAME dcs
   SOURCES src/dcs-config-test-workflow.cxx
-  PUBLIC_LINK_LIBRARIES O2::Framework O2::DetectorsCommonDataFormats)
+  PUBLIC_LINK_LIBRARIES O2::Framework
+                        O2::DetectorsCommonDataFormats
+                        O2::MFTCondition)
+			
