@@ -16,8 +16,6 @@
 #include <unordered_map>
 #include <iostream>
 
-const int mNumParam = 512;
-
 namespace o2
 {
 namespace mft

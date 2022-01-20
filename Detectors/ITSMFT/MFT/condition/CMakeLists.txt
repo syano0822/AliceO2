@@ -12,6 +12,7 @@ o2_add_library(MFTCondition
                SOURCES src/MFTDCSProcessor.cxx
                        src/DCSNameResolver.cxx                       
 		       src/DCSConfigInfo.cxx
+                       src/MFTDCSConfigReader.cxx
                PUBLIC_LINK_LIBRARIES O2::CCDB
                                      O2::DetectorsCalibration
                                      O2::DetectorsDCS
