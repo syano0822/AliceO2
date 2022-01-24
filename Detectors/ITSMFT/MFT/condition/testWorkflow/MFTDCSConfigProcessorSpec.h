@@ -15,7 +15,7 @@
 /// @file   MFTDCSConfigProcessorSpec.h
 /// @brief  MFT Processor for DCS Configurations
 
-#include "MFTCondition/MFTDCSConfigReader.h"
+#include "MFTCondition/DCSConfigReader.h"
 
 #include "DetectorsCalibration/Utils.h"
 #include "CommonUtils/MemFileHelper.h"
@@ -35,7 +35,6 @@ using namespace o2::framework;
 
 using TFType = uint64_t;
 using HighResClock = std::chrono::high_resolution_clock;
-//using Duration = std::chrono::duration<double, std::ratio<1, 1>>;
 
 namespace o2
 {
@@ -65,14 +64,8 @@ namespace mft
       mReader.loadConfig(configBuff);
 
       sendOutput(pc.outputs());
-    }
-
-    //---------------------------------------------------------
-
-    void endOfStream(o2::framework::EndOfStreamContext& ec) final
-    {
-      LOG(info) << "Finalizing calibration";
-      sendOutput(ec.outputs());
+      
+      mReader.clear();
     }
 
   private:
@@ -106,7 +99,7 @@ namespace mft
     }
     //________________________________________________________________
 
-    MFTDCSConfigReader mReader;
+    DCSConfigReader mReader;
     bool mVerbose = false;                // to enable verbose mode
 
   }; // end class

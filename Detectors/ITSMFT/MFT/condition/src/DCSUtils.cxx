@@ -9,6 +9,6 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
-#include "MFTCondition/DCSConfigInfo.h"
+#include "MFTCondition/DCSUtils.h"
 
-ClassImp(o2::mft::DCSConfigInfo);
+ClassImp(o2::mft::DCSUtils);

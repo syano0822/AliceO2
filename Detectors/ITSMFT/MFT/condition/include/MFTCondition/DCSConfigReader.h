@@ -26,22 +26,21 @@ namespace mft
 
   using namespace o2::mft;
 
-  class MFTDCSConfigReader
+  class DCSConfigReader
   {
 
   public:
-    MFTDCSConfigReader() = default;  // default constructor
-    ~MFTDCSConfigReader() = default; // default destructor
+    DCSConfigReader() = default;  // default constructor
+    ~DCSConfigReader() = default; // default destructor
     
     void init(bool);
     void loadConfig(gsl::span<const char> configBuf); // load FEElight config
-    
-    
+    void clear();
+
     std::vector<o2::mft::DCSConfigInfo>& getConfigInfo() { return mDCSConfig; }
     
   private:
-    
-    void initMap();
+
     void parseConfig();
 
     std::string mParams;
@@ -52,12 +51,9 @@ namespace mft
 
     bool mVerbose = false;
     
-    std::unordered_map<int,std::string> mNameFromDecAddRUconf;
-    std::unordered_map<int,std::string> mNameFromDecAddALPIDEconf;
-    
     std::vector<o2::mft::DCSConfigInfo> mDCSConfig;
 
-    ClassDefNV(MFTDCSConfigReader, 1);
+    ClassDefNV(DCSConfigReader, 1);
 };
 
 } // namespace tof

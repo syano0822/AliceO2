@@ -56,7 +56,7 @@ struct MFTDCSinfo {
     firstValue.second = lastValue.second = midValue.second = maxChange.second = -999999999;
   }
   void print() const;
-
+  
   ClassDefNV(MFTDCSinfo, 1);
 };
 

@@ -9,8 +9,8 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
-/// @file   DCSConfigInfo.h
-/// @brief  MFT DCS Configuration file processor
+#ifndef O2_MFT_DCSCONFIGINFO_H
+#define O2_MFT_DCSCONFIGINFO_H
 
 #include <TString.h>
 #include <unordered_map>
@@ -20,98 +20,54 @@ namespace o2
 {
 namespace mft
 {
-
 class DCSConfigInfo
 {
-  
+
  public:
-  
-  DCSConfigInfo(){
-    mName = "";
-    mData = -999;
-    mAddrHexa = -999;
-    mAddrDeci = -999;
-    mConfigType = -999;
-    mIsStored = false;
-  }
-  
-  ~DCSConfigInfo(){
-    
-  }
-  
+
   void clear(){
-    mName = "";
     mData = -999;
-    mAddrHexa = -999;
-    mAddrDeci = -999;
-    mConfigType = -999;
-    mIsStored = false;    
+    mAdd = -999;
+    mType = -999;
+    mVersion = "v0";
+  }
+  void setData(int val){
+    mData = val;
+  }
+  void setAdd(int val){
+    mAdd = val;
+  }
+  void setType(int val){
+    mType = val;
+  }
+  void setVersion(std::string str){
+    mVersion = str;
   }
 
-  void setName(std::string name){
-    mName = name;
-  }
-  void setData(int data){
-    mData = data;
-  }
-  void setAddHexa(int addr){
-    mAddrHexa = addr;
-  }
-  void setAddDeci(int addr){
-    mAddrDeci = addr;
-  }
-  void setType(int type){
-    mConfigType = type;
-    if(type == 0) mConfigTypeStr = "RU";
-    else if(type == 1) mConfigTypeStr = "ALPIDE";
-    else mConfigTypeStr = "";
-  }
-  void setTypeStr(std::string type){
-    mConfigTypeStr = type;
-    if(type == "RU") mConfigType = 0;
-    else if(type == "ALPIDE") mConfigType = 1;
-    else mConfigType = -999;
-  }
-
-  void getName(std::string& name){
-    name = mName;
-  }
   void getData(int& data){
-    data = mData;
+    data =  mData;
   }
-  void getAddHexa(int& addr){
-    addr = mAddrHexa;
-  }
-  void getAddDeci(int& addr){
-    addr = mAddrDeci;
+  void getAdd(int& add){
+    add = mAdd;
   }
   void getType(int& type){
-    type = mConfigType;
+    type =  mType;
   }
-  
-  bool isStored(){    
-    return mIsStored;
-  }
-  
-  void init(){
-    if(mData>=0 && mAddrDeci>=0){
-      mIsStored = true;
-    }
-    
+  void getVersion(std::string& version){
+    version = mVersion;
   }
 
  private:
-  
-  std::string mName;
+
   int mData;
-  int mAddrDeci;
-  int mAddrHexa;
-  int mConfigType; //RU = 0, ALPIDE = 1;
-  std::string mConfigTypeStr;
-  bool mIsStored;
-  
+  int mAdd;
+  int mType; //RU = 0, ALPIDE = 1
+  std::string mVersion;
+
   ClassDefNV(DCSConfigInfo, 1);
 
-}; // end class
-} // namespace mft
-} // namespace o2
+};
+}
+}
+
+#endif
