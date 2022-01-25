@@ -64,20 +64,18 @@ class DCSConfigUtils
   }
   void getName(std::string& name)
   {
-    if (mType == 0){
+    if (mType == 0) {
       name = mMapAddNameRU[mAdd];
-    }
-    else if (mType == 1){
+    } else if (mType == 1) {
       name = mMapAddNameALPIDE[mAdd];
     }
   }
 
   void getTypeStr(std::string& name)
   {
-    if (mType == 0){
+    if (mType == 0) {
       name = "RU";
-    }
-    else if (mType == 1){
+    } else if (mType == 1) {
       name = "ALPIDE";
     }
   }
