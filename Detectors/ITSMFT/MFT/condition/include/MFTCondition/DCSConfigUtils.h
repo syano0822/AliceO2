@@ -77,7 +77,6 @@ class DCSConfigUtils
       return mTypeNameList[mType];
     }
     return mTypeNameList[2];
-    
   }
 
  private:
