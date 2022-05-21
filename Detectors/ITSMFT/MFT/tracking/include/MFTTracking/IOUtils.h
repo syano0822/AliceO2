@@ -26,6 +26,7 @@
 #include "MFTTracking/ROframe.h"
 #include "ITSMFTBase/SegmentationAlpide.h"
 #include "DataFormatsITSMFT/ROFRecord.h"
+#include "DataFormatsITSMFT/NoiseMap.h"
 #include "ReconstructionDataFormats/BaseCluster.h"
 
 namespace o2
@@ -57,9 +58,14 @@ constexpr float DefClusError2Row = DefClusErrorRow * DefClusErrorRow;
 constexpr float DefClusError2Col = DefClusErrorCol * DefClusErrorCol;
 
 template <typename T>
-int loadROFrameData(const o2::itsmft::ROFRecord& rof, ROframe<T>& events, gsl::span<const itsmft::CompClusterExt> clusters,
-                    gsl::span<const unsigned char>::iterator& pattIt, const itsmft::TopologyDictionary* dict,
-                    const dataformats::MCTruthContainer<MCCompLabel>* mClsLabels = nullptr, const o2::mft::Tracker<T>* tracker = nullptr);
+int loadROFrameData(const o2::itsmft::ROFRecord& rof,
+		    ROframe<T>& events,
+		    gsl::span<const itsmft::CompClusterExt> clusters,
+                    gsl::span<const unsigned char>::iterator& pattIt,
+		    const itsmft::TopologyDictionary* dict,
+                    const dataformats::MCTruthContainer<MCCompLabel>* mClsLabels = nullptr,
+		    const o2::mft::Tracker<T>* tracker = nullptr,
+		    const o2::itsmft::NoiseMap* deadmap = nullptr);
 
 void convertCompactClusters(gsl::span<const itsmft::CompClusterExt> clusters,
                             gsl::span<const unsigned char>::iterator& pattIt,

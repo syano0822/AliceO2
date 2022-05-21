@@ -29,6 +29,7 @@
 #include "DataFormatsITSMFT/CompCluster.h"
 #include "DataFormatsMFT/TrackMFT.h"
 #include "DataFormatsITSMFT/ROFRecord.h"
+#include "DataFormatsITSMFT/NoiseMap.h"
 #include "SimulationDataFormat/MCCompLabel.h"
 #include "SimulationDataFormat/MCTruthContainer.h"
 #include "Field/MagneticField.h"
@@ -95,11 +96,12 @@ void TrackerDPL::init(InitContext& ic)
 
 void TrackerDPL::run(ProcessingContext& pc)
 {
+  const auto deadmap = pc.inputs().get<o2::itsmft::NoiseMap*>("deadmap");
+  
   updateTimeDependentParams(pc);
   gsl::span<const unsigned char> patterns = pc.inputs().get<gsl::span<unsigned char>>("patterns");
   auto compClusters = pc.inputs().get<const std::vector<o2::itsmft::CompClusterExt>>("compClusters");
   auto ntracks = 0;
-
   // code further down does assignment to the rofs and the altered object is used for output
   // we therefore need a copy of the vector rather than an object created directly on the input data,
   // the output vector however is created directly inside the message memory thus avoiding copy by
@@ -149,8 +151,8 @@ void TrackerDPL::run(ProcessingContext& pc)
 
     gsl::span<const unsigned char>::iterator pattIt = patterns.begin();
     for (auto& rof : rofs) {
-      mTimer[SWLoadData].Start(false);
-      int nclUsed = ioutils::loadROFrameData(rof, event, compClusters, pattIt, mDict, labels, mTracker.get());
+      mTimer[SWLoadData].Start(false);      
+      int nclUsed = ioutils::loadROFrameData(rof, event, compClusters, pattIt, mDict, labels, mTracker.get(), mDeadMap);      
       mTimer[SWLoadData].Stop();
       int ntracksROF = 0, firstROFTrackEntry = allTracksMFT.size();
       if (nclUsed) {
@@ -217,7 +219,7 @@ void TrackerDPL::run(ProcessingContext& pc)
     gsl::span<const unsigned char>::iterator pattIt = patterns.begin();
     for (auto& rof : rofs) {
       mTimer[SWLoadData].Start(false);
-      int nclUsed = ioutils::loadROFrameData(rof, event, compClusters, pattIt, mDict, labels, mTrackerL.get());
+      int nclUsed = ioutils::loadROFrameData(rof, event, compClusters, pattIt, mDict, labels, mTrackerL.get(), mDeadMap);
       mTimer[SWLoadData].Stop();
       int ntracksROF = 0, firstROFTrackEntry = allTracksMFT.size();
       if (nclUsed) {
@@ -283,6 +285,7 @@ void TrackerDPL::endOfStream(EndOfStreamContext& ec)
 void TrackerDPL::updateTimeDependentParams(ProcessingContext& pc)
 {
   pc.inputs().get<o2::itsmft::TopologyDictionary*>("cldict"); // just to trigger the finaliseCCDB
+  pc.inputs().get<o2::itsmft::NoiseMap*>("deadmap"); // just to trigger the finaliseCCDB
 }
 
 ///_______________________________________
@@ -291,6 +294,9 @@ void TrackerDPL::finaliseCCDB(ConcreteDataMatcher& matcher, void* obj)
   if (matcher == ConcreteDataMatcher("MFT", "CLUSDICT", 0)) {
     LOG(info) << "cluster dictionary updated";
     mDict = (const o2::itsmft::TopologyDictionary*)obj;
+  } else if (matcher == ConcreteDataMatcher("MFT", "DEADMAP", 0)) {
+    LOG(info) << "dead map updated";
+    mDeadMap = (o2::itsmft::NoiseMap*)obj;
   }
 }
 
@@ -301,7 +307,8 @@ DataProcessorSpec getTrackerSpec(bool useMC)
   inputs.emplace_back("patterns", "MFT", "PATTERNS", 0, Lifetime::Timeframe);
   inputs.emplace_back("ROframes", "MFT", "CLUSTERSROF", 0, Lifetime::Timeframe);
   inputs.emplace_back("cldict", "MFT", "CLUSDICT", 0, Lifetime::Condition, ccdbParamSpec("MFT/Calib/ClusterDictionary"));
-
+  inputs.emplace_back("deadmap", "MFT", "DEADMAP", 0, Lifetime::Condition, ccdbParamSpec("/MFT/Calib/DeadMap"));
+    
   std::vector<OutputSpec> outputs;
   outputs.emplace_back("MFT", "TRACKS", 0, Lifetime::Timeframe);
   outputs.emplace_back("MFT", "MFTTrackROF", 0, Lifetime::Timeframe);

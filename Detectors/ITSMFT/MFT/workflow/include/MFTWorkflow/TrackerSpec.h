@@ -21,6 +21,7 @@
 #include "Framework/Task.h"
 #include "DataFormatsParameters/GRPObject.h"
 #include "DataFormatsITSMFT/TopologyDictionary.h"
+#include "DataFormatsITSMFT/NoiseMap.h"
 #include "TStopwatch.h"
 
 namespace o2
@@ -46,9 +47,11 @@ class TrackerDPL : public o2::framework::Task
   bool mUseMC = false;
   bool mFieldOn = true;
   const o2::itsmft::TopologyDictionary* mDict = nullptr;
+  o2::itsmft::NoiseMap* mDeadMap = nullptr;
   std::unique_ptr<o2::parameters::GRPObject> mGRP = nullptr;
   std::unique_ptr<o2::mft::Tracker<TrackLTF>> mTracker = nullptr;
   std::unique_ptr<o2::mft::Tracker<TrackLTFL>> mTrackerL = nullptr;
+  
   enum TimerIDs { SWTot,
                   SWLoadData,
                   SWFindLTFTracks,
