@@ -150,6 +150,7 @@ class DCSConfigUtils
   }
 
  private:
+  
   const int mVersionNameLine = 0;
   const int mAlpideConfigAddressLine = 1;
   const int mAlpideConfigValueLine = 2;
