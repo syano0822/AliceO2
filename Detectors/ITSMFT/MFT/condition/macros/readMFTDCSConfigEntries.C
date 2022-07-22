@@ -25,7 +25,7 @@
 
 void readMFTDCSConfigEntries(long ts = 9999999999000, std::string ccdb_path = o2::base::NameConf::getCCDBServer())
 {
-  
+
   o2::ccdb::CcdbApi api;
   api.init(ccdb_path); // or http://ccdb-test.cern.ch:8080
   std::map<std::string, std::string> metadata;
