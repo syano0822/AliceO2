@@ -263,9 +263,9 @@ void MFTDCSProcessor::updateDPsCCDB()
     }
 
       if (mVerbose) {
-      LOG(info) << it.first.get_alias();
-      mftdcs.print();
-      LOG(info);
+        LOG(info) << it.first.get_alias();
+        mftdcs.print();
+        LOG(info);
       }
 
       if (strstr(it.first.get_alias(), "MFT_RU_LV") &&
