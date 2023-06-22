@@ -138,7 +138,7 @@ void DCSConfigReader::parseConfig()
     mDCSConfig.emplace_back(conf);
   }
 
-  if (mVerbose){
+  if (mVerbose) {
     LOG(info) << "Found " << nubb << " UBB parameters";
   }
   for (int iUBBconf = 0; iUBBconf < nubb; ++iUBBconf) {
@@ -156,7 +156,7 @@ void DCSConfigReader::parseConfig()
     mDCSConfig.emplace_back(conf);
   }
 
-  if (mVerbose){
+  if (mVerbose) {
     LOG(info) << "Found " << ndeadmap << " Dead chips";
   }
   for (int iDeadMap = 0; iDeadMap < ndeadmap; ++iDeadMap) {
